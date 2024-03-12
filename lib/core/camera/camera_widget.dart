@@ -12,10 +12,11 @@ class CameraWidget extends StatefulWidget {
 
 class _CameraWidgetState extends State<CameraWidget>
     with WidgetsBindingObserver {
+  CameraController? _controller;
   late List<CameraDescription> _cameras;
   XFile? fileData;
   bool isActiveTorch = false;
-  late CameraController _controller;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -47,16 +48,16 @@ class _CameraWidgetState extends State<CameraWidget>
     final Offset offsetDevice = Offset(
         details.localPosition.dx / constraints.maxWidth,
         details.localPosition.dy / constraints.maxHeight);
-    await _controller.setExposurePoint(offsetDevice);
-    await _controller.setFocusPoint(offsetDevice);
+    await _controller?.setExposurePoint(offsetDevice);
+    await _controller?.setFocusPoint(offsetDevice);
   }
 
   Future<void> setFlashMode(FlashMode mode) async {
-    await _controller.setFlashMode(mode);
+    await _controller?.setFlashMode(mode);
   }
 
   Future<void> takePicturePhoto() async {
-    _controller.takePicture().then((value) {
+    _controller?.takePicture().then((value) {
       if (mounted) {
         setState(() {
           fileData = value;
@@ -68,7 +69,7 @@ class _CameraWidgetState extends State<CameraWidget>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    final CameraController cameraController = _controller;
+    final CameraController cameraController = _controller!;
 
     // App state changed before we got the chance to initialize.
     if (!cameraController.value.isInitialized) {
@@ -97,12 +98,11 @@ class _CameraWidgetState extends State<CameraWidget>
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            // ignore: unnecessary_null_comparison
-            if (_controller != null && _controller.value.isInitialized)
+            if (_controller != null)
               Positioned.fill(
                   child: LayoutBuilder(builder: ((context, constraints) {
                 final size = constraints.biggest;
-                var scale = size.aspectRatio * _controller.value.aspectRatio;
+                var scale = size.aspectRatio * _controller!.value.aspectRatio;
                 if (scale < 1) scale = 1 / scale;
 
                 return GestureDetector(
@@ -113,8 +113,8 @@ class _CameraWidgetState extends State<CameraWidget>
                     scale: scale,
                     child: Center(
                       child: AspectRatio(
-                        aspectRatio: 1 / _controller.value.aspectRatio,
-                        child: CameraPreview(_controller),
+                        aspectRatio: 1 / _controller!.value.aspectRatio,
+                        child: CameraPreview(_controller!),
                       ),
                     ),
                   ),
