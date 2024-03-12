@@ -30,7 +30,7 @@ class _CameraWidgetState extends State<CameraWidget>
     _cameras = await availableCameras();
     await _initializeCameraController();
     await PermissionUtil().permissionCamera();
-    // await PermissionUtil().permissionStorage();
+    await PermissionUtil().permissionStorage();
   }
 
   Future<void> _initializeCameraController() async {
@@ -114,8 +114,8 @@ class _CameraWidgetState extends State<CameraWidget>
                       scale: scale,
                       child: Center(
                         child: AspectRatio(
-                          aspectRatio: 1.0 / _controller!.value.aspectRatio,
-                          child: CameraPreview(_controller!),
+                          aspectRatio: 1 / _controller!.value.aspectRatio,
+                          child: _controller?.buildPreview(),
                         ),
                       ),
                     ),
