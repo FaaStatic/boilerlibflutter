@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+//this class function to provide function for invoke shared preferences to add,create,remove and update value based key.
 class StorageUtil {
   static final _storage = StorageUtil._internal();
 

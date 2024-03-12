@@ -1,6 +1,7 @@
 import 'package:boilerlib/core/api/api_interceptors.dart';
 import 'package:dio/dio.dart';
 
+//this class have function to provide RestAPI from server
 class ApiManager {
   String? baseurl;
   bool? isFormData;
