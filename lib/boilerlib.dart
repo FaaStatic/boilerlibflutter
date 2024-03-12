@@ -3,6 +3,7 @@ library boilerlib;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+export 'package:boilerlib/boilerlib.dart';
 export 'core/api/api_manager.dart';
 export 'core/camera/camera_widget.dart';
 export 'core/permission_util/permission_util.dart';
