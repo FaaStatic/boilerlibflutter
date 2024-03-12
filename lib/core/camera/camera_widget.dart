@@ -13,7 +13,7 @@ class CameraWidget extends StatefulWidget {
 class _CameraWidgetState extends State<CameraWidget>
     with WidgetsBindingObserver {
   CameraController? _controller;
-  late List<CameraDescription> _cameras;
+  List<CameraDescription>? _cameras;
   XFile? fileData;
   bool isActiveTorch = false;
 
@@ -28,15 +28,15 @@ class _CameraWidgetState extends State<CameraWidget>
 
   Future<void> initCamera() async {
     _cameras = await availableCameras();
-    await _initializeCameraController(_cameras.first);
+    await _initializeCameraController();
     await PermissionUtil().permissionCamera();
     await PermissionUtil().permissionStorage();
   }
 
-  Future<void> _initializeCameraController(
-      CameraDescription cameraDescription) async {
+  Future<void> _initializeCameraController() async {
+    _cameras = await availableCameras();
     _controller = CameraController(
-      cameraDescription,
+      _cameras!.first,
       kIsWeb ? ResolutionPreset.max : ResolutionPreset.medium,
       enableAudio: false,
       imageFormatGroup: ImageFormatGroup.jpeg,
@@ -79,7 +79,7 @@ class _CameraWidgetState extends State<CameraWidget>
     if (state == AppLifecycleState.inactive) {
       cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
-      _initializeCameraController(cameraController.description);
+      _initializeCameraController();
     }
     super.didChangeAppLifecycleState(state);
   }
@@ -87,7 +87,7 @@ class _CameraWidgetState extends State<CameraWidget>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _cameras.clear();
+    _cameras?.clear();
     super.dispose();
   }
 
