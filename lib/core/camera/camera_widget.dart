@@ -99,27 +99,28 @@ class _CameraWidgetState extends State<CameraWidget>
         child: Stack(
           children: [
             if (_controller != null)
-              Positioned.fill(
-                  child: LayoutBuilder(builder: ((context, constraints) {
-                final size = constraints.biggest;
-                var scale = size.aspectRatio * _controller!.value.aspectRatio;
-                if (scale < 1) scale = 1 / scale;
+              if (_controller!.value.isInitialized)
+                Positioned.fill(
+                    child: LayoutBuilder(builder: ((context, constraints) {
+                  final size = constraints.biggest;
+                  var scale = size.aspectRatio * _controller!.value.aspectRatio;
+                  if (scale < 1) scale = 1 / scale;
 
-                return GestureDetector(
-                  onTapDown: (detail) {
-                    setFocus(detail, constraints);
-                  },
-                  child: Transform.scale(
-                    scale: scale,
-                    child: Center(
-                      child: AspectRatio(
-                        aspectRatio: 1 / _controller!.value.aspectRatio,
-                        child: CameraPreview(_controller!),
+                  return GestureDetector(
+                    onTapDown: (detail) {
+                      setFocus(detail, constraints);
+                    },
+                    child: Transform.scale(
+                      scale: scale,
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: 1.0 / _controller!.value.aspectRatio,
+                          child: CameraPreview(_controller!),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }))),
+                  );
+                }))),
             Positioned(
                 left: 0,
                 right: 0,
