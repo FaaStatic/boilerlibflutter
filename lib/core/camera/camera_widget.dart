@@ -30,7 +30,7 @@ class _CameraWidgetState extends State<CameraWidget>
     _cameras = await availableCameras();
     await _initializeCameraController();
     await PermissionUtil().permissionCamera();
-    await PermissionUtil().permissionStorage();
+    // await PermissionUtil().permissionStorage();
   }
 
   Future<void> _initializeCameraController() async {
