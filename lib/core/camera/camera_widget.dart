@@ -12,7 +12,7 @@ class CameraWidget extends StatefulWidget {
 
 class _CameraWidgetState extends State<CameraWidget>
     with WidgetsBindingObserver {
-  late List<CameraDescription> _cameras;
+  List<CameraDescription>? _cameras;
   XFile? fileData;
   bool isActiveTorch = false;
   late CameraController _controller;
@@ -29,7 +29,9 @@ class _CameraWidgetState extends State<CameraWidget>
   Future<void> initCamera() async {
     _cameras = await availableCameras();
     await PermissionUtil().permissionCamera().whenComplete(() {
-      _initializeCameraController(_cameras.first);
+      if (_cameras!.isNotEmpty && _cameras != null) {
+        _initializeCameraController(_cameras!.first);
+      }
       PermissionUtil().permissionStorage();
     });
   }
@@ -88,7 +90,7 @@ class _CameraWidgetState extends State<CameraWidget>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _cameras.clear();
+    _cameras?.clear();
     super.dispose();
   }
 
