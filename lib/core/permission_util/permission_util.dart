@@ -12,7 +12,7 @@ class PermissionUtil {
 
   Future<void> permissionLocation() async {
     try {
-      await Permission.location.status.then((value) {
+      await Permission.location.request().then((value) {
         if (value == PermissionStatus.granted) {
           print("Permission granted");
         } else {
@@ -28,7 +28,7 @@ class PermissionUtil {
     try {
       if (Platform.isAndroid) {
         if (int.parse(Platform.operatingSystemVersion) > 32) {
-          await Permission.photos.status.then((value) {
+          await Permission.photos.request().then((value) {
             if (value == PermissionStatus.granted) {
               print("Permission granted");
             } else {
@@ -36,7 +36,7 @@ class PermissionUtil {
             }
           });
         } else {
-          await Permission.storage.status.then((value) {
+          await Permission.storage.request().then((value) {
             if (value == PermissionStatus.granted) {
               print("Permission granted");
             } else {
@@ -45,7 +45,7 @@ class PermissionUtil {
           });
         }
       } else {
-        await Permission.photos.status.then((value) {
+        await Permission.photos.request().then((value) {
           if (value == PermissionStatus.granted) {
             print("Permission granted");
           } else {
@@ -60,7 +60,7 @@ class PermissionUtil {
 
   Future<void> permissionCamera() async {
     try {
-      await Permission.camera.status.then((value) {
+      await Permission.camera.request().then((value) {
         if (value == PermissionStatus.granted) {
           print("Permission granted");
         } else {
