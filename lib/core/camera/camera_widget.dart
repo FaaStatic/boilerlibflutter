@@ -19,10 +19,10 @@ class _CameraWidgetState extends State<CameraWidget>
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initCamera();
     });
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -34,9 +34,8 @@ class _CameraWidgetState extends State<CameraWidget>
   }
 
   Future<void> _initializeCameraController() async {
-    _cameras = await availableCameras();
     _controller = CameraController(
-      _cameras!.first,
+      _cameras!.elementAt(0),
       kIsWeb ? ResolutionPreset.max : ResolutionPreset.medium,
       enableAudio: false,
       imageFormatGroup: ImageFormatGroup.jpeg,
