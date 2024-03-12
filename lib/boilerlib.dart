@@ -40,4 +40,8 @@ class Boilerlib {
       ));
     }
   }
+
+  void replacePage(BuildContext context, String path) {
+    context.go(path);
+  }
 }
