@@ -98,7 +98,7 @@ class _CameraWidgetState extends State<CameraWidget>
         child: Stack(
           children: [
             // ignore: unnecessary_null_comparison
-            if (_controller != null)
+            if (_controller != null && _controller.value.isInitialized)
               Positioned.fill(
                   child: LayoutBuilder(builder: ((context, constraints) {
                 final size = constraints.biggest;
