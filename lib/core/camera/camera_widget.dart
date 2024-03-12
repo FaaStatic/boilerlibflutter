@@ -28,10 +28,10 @@ class _CameraWidgetState extends State<CameraWidget>
 
   Future<void> initCamera() async {
     _cameras = await availableCameras();
-    await Future.wait([
-      PermissionUtil().permissionCamera(),
-      PermissionUtil().permissionStorage()
-    ]);
+    await PermissionUtil().permissionCamera().whenComplete(() {
+      _initializeCameraController(_cameras.first);
+      PermissionUtil().permissionStorage();
+    });
   }
 
   Future<void> _initializeCameraController(
@@ -65,7 +65,7 @@ class _CameraWidgetState extends State<CameraWidget>
         });
       }
       print("Photo Captured!");
-        });
+    });
   }
 
   @override
