@@ -40,6 +40,7 @@ class _CameraWidgetState extends State<CameraWidget>
       enableAudio: false,
       imageFormatGroup: ImageFormatGroup.jpeg,
     );
+    await _controller!.initialize();
   }
 
   Future<void> setFocus(
