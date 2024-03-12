@@ -18,19 +18,17 @@ class _CameraWidgetState extends State<CameraWidget>
   late CameraController _controller;
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initCamera();
     });
-
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   Future<void> initCamera() async {
     _cameras = await availableCameras();
-    await PermissionUtil().permissionCamera().whenComplete(() {
-      _initializeCameraController(_cameras.first);
-    });
+    await _initializeCameraController(_cameras.first);
+    await PermissionUtil().permissionCamera();
     await PermissionUtil().permissionStorage();
   }
 
